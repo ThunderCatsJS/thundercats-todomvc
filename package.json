@@ -1,7 +1,7 @@
 {
   "name": "todomvc-flux",
   "version": "1.0.0",
-  "description": "Example Flux architecture using todoMVC.",
+  "description": "Example TodoMVC using Thundercats.js.",
   "repository": "https://github.com/r3dm/thundercats",
   "main": "js/app.jsx",
   "dependencies": {
