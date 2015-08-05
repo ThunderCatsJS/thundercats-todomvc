@@ -1,5 +1,6 @@
 import React from 'react';
 import { Cat } from 'thundercats';
+import { Render } from 'thundercats-react';
 import { Router } from 'director';
 
 import TodoStore from './stores/TodoStore';
@@ -9,34 +10,33 @@ import RouterActions from './actions/RouterActions';
 import TodoApp from './components/App.jsx';
 import TodoService from './services/todoService';
 
-class App extends Cat {
-  constructor() {
-    super();
-    this.register(TodoActions);
-    this.register(RouterActions);
-    this.register(TodoStore, this);
-  }
-}
+const TodoCat = Cat()
+  .refs({ displayName: 'TodoCat' })
+  .init(({ instance: todoCat }) => {
+    todoCat.register(TodoActions);
+    todoCat.register(RouterActions);
+    todoCat.register(TodoStore, null, todoCat);
+  });
 
-const app = new App();
+const todoCat = TodoCat();
 
-const { changeRoute } = app.getActions('routerActions');
+const { changeRoute } = todoCat.getActions('routerActions');
 
 const router = Router({
-  '/': function () {
+  '/': function() {
     changeRoute(routes.ALL);
   },
-  '/active': function () {
+  '/active': function() {
     changeRoute(routes.ACTIVE);
   },
-  '/completed': function () {
+  '/completed': function() {
     changeRoute(routes.COMPLETED);
   }
 });
 
 router.init('/');
 
-app.render(<TodoApp />, document.getElementById('todoapp')).subscribe(
+Render(todoCat, <TodoApp />, document.getElementById('todoapp')).subscribe(
   () => {
     console.log('app rendered!');
   },
@@ -45,4 +45,4 @@ app.render(<TodoApp />, document.getElementById('todoapp')).subscribe(
   }
 );
 
-TodoService.init(app.getStore('todoStore'));
+TodoService.init(todoCat.getStore('todoStore'));

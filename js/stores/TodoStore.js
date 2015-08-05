@@ -2,7 +2,7 @@ import { Store } from 'thundercats';
 import assign from 'react/lib/Object.assign';
 
 function updateTodos(todos, update, condition) {
-  return Object.keys(todos).reduce(function (result, id) {
+  return Object.keys(todos).reduce(function(result, id) {
     var todo = todos[id];
     if (!condition || condition(todo)) {
       result[id] = assign({}, todo, update);
@@ -13,9 +13,9 @@ function updateTodos(todos, update, condition) {
   }, {});
 }
 
-export default class TodoStore extends Store {
-  constructor(cat) {
-    super();
+export default Store()
+  .refs({ displayName: 'TodoStore' })
+  .init(({ instance: todoStore, args: [cat] }) => {
     const todoActions = cat.getActions('todoActions');
     const routerActions = cat.getActions('routerActions');
     const { changeRoute } = routerActions;
@@ -30,14 +30,14 @@ export default class TodoStore extends Store {
       updateText
     } = todoActions;
 
-    this.value = {
+    todoStore.value = {
       todosMap: {},
       currentRoute: '/'
     };
 
-    this.register(changeRoute);
+    todoStore.register(changeRoute);
 
-    this.register(updateMany.map(todosMap => {
+    todoStore.register(updateMany.map(todosMap => {
       return {
         transform(state) {
           state.todosMap = assign({}, state.todosMap, todosMap);
@@ -46,9 +46,9 @@ export default class TodoStore extends Store {
       };
     }));
 
-    this.register(create.map(({ todo, promise }) => {
+    todoStore.register(create.map(({ todo, promise }) => {
       return {
-        transform: function (state) {
+        transform: function(state) {
           const todos = assign({}, state.todosMap);
           todos[todo.id] = todo;
           state.todosMap = todos;
@@ -58,7 +58,7 @@ export default class TodoStore extends Store {
       };
     }));
 
-    this.register(toggleCompleteAll.map(({ promise }) => {
+    todoStore.register(toggleCompleteAll.map(({ promise }) => {
       return {
         transform: function(state) {
           const todos = state.todosMap;
@@ -75,7 +75,7 @@ export default class TodoStore extends Store {
       };
     }));
 
-    this.register(toggleComplete.map(({ id, promise }) => {
+    todoStore.register(toggleComplete.map(({ id, promise }) => {
       return {
         transform: state => {
           const todos = state.todosMap;
@@ -90,7 +90,7 @@ export default class TodoStore extends Store {
       };
     }));
 
-    this.register(updateText.map(({ id, text, promise }) => {
+    todoStore.register(updateText.map(({ id, text, promise }) => {
       return {
         transform: state => {
           const todos = state.todosMap;
@@ -105,7 +105,7 @@ export default class TodoStore extends Store {
       };
     }));
 
-    this.register(destroy.map(function({ id, promise }) {
+    todoStore.register(destroy.map(function({ id, promise }) {
       return {
         transform: state => {
           const todos = assign({}, state.todosMap);
@@ -117,11 +117,11 @@ export default class TodoStore extends Store {
       };
     }));
 
-    this.register(destroyCompleted.map(function({ promise }) {
+    todoStore.register(destroyCompleted.map(function({ promise }) {
       return {
         transform: state => {
           const todos = state.todosMap;
-          state.todosMap = Object.keys(todos).reduce(function (result, id) {
+          state.todosMap = Object.keys(todos).reduce(function(result, id) {
             let todo = todos[id];
             if (!todo.complete) {
               result[id] = todo;
@@ -133,7 +133,4 @@ export default class TodoStore extends Store {
         optimistic: promise
       };
     }));
-  }
-
-  static displayName = 'TodoStore'
-}
+  });

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { createContainer } from 'thundercats';
+import { createContainer } from 'thundercats-react';
 
 import routes from '../routes';
 import Footer from './Footer.jsx';
@@ -10,7 +10,7 @@ import Main from './Main.jsx';
   store: 'todoStore',
   fetchAction: 'todoActions.fetchState',
   map: ({ currentRoute, todosMap }) => {
-    const allTodos = Object.keys(todosMap).reduce(function (todos, id) {
+    const allTodos = Object.keys(todosMap).reduce(function(todos, id) {
       todos.push(todosMap[id]);
       return todos;
     }, []);

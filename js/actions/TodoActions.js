@@ -2,13 +2,7 @@ import uuid from 'node-uuid';
 import { Actions } from 'thundercats';
 import TodoService from '../services/todoService';
 
-export default class TodoActions extends Actions {
-  constructor() {
-    super();
-  }
-
-  static displayName = 'TodoActions'
-
+export default Actions({
   create(text) {
     const todo = {
       id: uuid.v4(),
@@ -17,22 +11,22 @@ export default class TodoActions extends Actions {
     };
     return {
       todo,
-      promise: TodoService.create(todo)
+      optimistic: TodoService.create(todo)
     };
-  }
+  },
 
   destroy(id) {
     return {
       id,
-      promise: TodoService.destroy(id)
+      optimistic: TodoService.destroy(id)
     };
-  }
+  },
 
   destroyCompleted() {
     return {
-      promise: TodoService.destroyCompleted()
+      optimistic: TodoService.destroyCompleted()
     };
-  }
+  },
 
   fetchTodos() {
     TodoService.getTodos()
@@ -42,30 +36,31 @@ export default class TodoActions extends Actions {
       .catch(err => {
         console.log('an error occurred retrieving todos from server: ', err);
       });
-  }
+  },
 
   toggleComplete(id) {
     return {
       id,
-      promise: TodoService.toggleComplete(id)
+      optimistic: TodoService.toggleComplete(id)
     };
-  }
+  },
 
   toggleCompleteAll() {
     return {
-      promise: TodoService.toggleCompleteAll()
+      optimistic: TodoService.toggleCompleteAll()
     };
-  }
+  },
 
   updateMany(todosMap) {
     return todosMap;
-  }
+  },
 
   updateText({ id, text }) {
     return {
       id,
       text,
-      promise: TodoService.updateText(id, text)
+      optimistic: TodoService.updateText(id, text)
     };
   }
-}
+})
+  .refs({ displayName: 'TodoActions' });

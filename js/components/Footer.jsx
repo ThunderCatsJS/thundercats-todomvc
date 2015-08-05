@@ -41,7 +41,7 @@ export default class Footer extends React.Component {
       activeTodosCount,
       allTodosCount,
       completeTodosCount,
-      currentRoute,
+      currentRoute
     } = this.props;
 
     if (!allTodosCount) {

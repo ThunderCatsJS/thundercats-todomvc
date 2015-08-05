@@ -1,12 +1,6 @@
 import { Actions } from 'thundercats';
 
-export default class RouterActions extends Actions {
-  constructor() {
-    super();
-  }
-
-  static displayName = 'RouterActions'
-
+export default Actions({
   changeRoute(newRoute) {
     return {
       set: {
@@ -14,4 +8,5 @@ export default class RouterActions extends Actions {
       }
     };
   }
-}
+})
+  .refs({ displayName: 'RouterActions' });

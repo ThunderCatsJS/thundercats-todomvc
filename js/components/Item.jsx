@@ -1,20 +1,18 @@
 import React, { PropTypes } from 'react';
-import { Actions, createContainer } from 'thundercats';
+import { Actions } from 'thundercats';
+import { createContainer } from 'thundercats-react';
 import classNames from 'classNames';
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
 
-class ItemActions extends Actions {
-  constructor() {
-    super([
-      'handleBlur',
-      'handleDoubleClick',
-      'handleKeyDown',
-      'handleTextChange'
-    ]);
-  }
-}
+// example of use outside of cat instantiation
+const ItemActions = Actions({
+  handleBlur: null,
+  handleDoubleClick: null,
+  handleKeyDown: null,
+  handleTextChange: null
+});
 
 @createContainer({
   actions: ['todoActions']
@@ -23,7 +21,7 @@ export default class Item extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = { editText: props.todo.text };
-    this.itemActions = new ItemActions();
+    this.itemActions = ItemActions();
   }
 
   static displayName = 'TodoItem'

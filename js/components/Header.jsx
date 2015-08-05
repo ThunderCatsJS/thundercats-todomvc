@@ -1,5 +1,5 @@
 import Rx from 'rx';
-import { createContainer } from 'thundercats';
+import { createContainer } from 'thundercats-react';
 import React, { PropTypes } from 'react';
 
 const ENTER_KEY = 13;
