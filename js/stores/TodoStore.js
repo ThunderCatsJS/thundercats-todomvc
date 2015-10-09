@@ -14,7 +14,13 @@ function updateTodos(todos, update, condition) {
 }
 
 export default Store()
-  .refs({ displayName: 'TodoStore' })
+  .refs({
+    displayName: 'TodoStore',
+    value: {
+      todosMap: {},
+      currentRoute: '/'
+    }
+  })
   .init(({ instance: todoStore, args: [cat] }) => {
     const todoActions = cat.getActions('todoActions');
     const routerActions = cat.getActions('routerActions');
@@ -29,11 +35,6 @@ export default Store()
       updateMany,
       updateText
     } = todoActions;
-
-    todoStore.value = {
-      todosMap: {},
-      currentRoute: '/'
-    };
 
     todoStore.register(changeRoute);
 
