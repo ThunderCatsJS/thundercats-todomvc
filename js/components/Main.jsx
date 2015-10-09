@@ -14,7 +14,7 @@ export default class Main extends React.Component {
   static displayName = 'Main'
   static propTypes = {
     areAllComplete: PropTypes.bool.isRequired,
-    todoActions: PropTypes.object.isRequired,
+    todoActions: PropTypes.object,
     todos: PropTypes.array.isRequired
   }
 

@@ -31,7 +31,7 @@ export default class Header extends React.Component {
       .subscribe(input => {
         const val = input.value.trim();
         input.value = '';
-        todoActions.create(val);
+        todoActions.createTodo(val);
       });
   }
 

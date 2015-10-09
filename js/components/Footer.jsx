@@ -30,7 +30,7 @@ export default class Footer extends React.Component {
     return (
       <button
         id='clear-completed'
-        onClick={ this.todoActions.clearCompleted }>
+        onClick={ this.todoActions.destroyCompleted }>
         Clear completed ({ completeTodosCount })
       </button>
     );

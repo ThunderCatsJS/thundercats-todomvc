@@ -21,7 +21,7 @@ export default Store()
     const { changeRoute } = routerActions;
 
     const {
-      create,
+      createTodo,
       destroy,
       destroyCompleted,
       toggleComplete,
@@ -46,7 +46,7 @@ export default Store()
       };
     }));
 
-    todoStore.register(create.map(({ todo, promise }) => {
+    todoStore.register(createTodo.map(({ todo, optimistic }) => {
       return {
         transform: function(state) {
           const todos = assign({}, state.todosMap);
@@ -54,11 +54,11 @@ export default Store()
           state.todosMap = todos;
           return state;
         },
-        optimistic: promise
+        optimistic
       };
     }));
 
-    todoStore.register(toggleCompleteAll.map(({ promise }) => {
+    todoStore.register(toggleCompleteAll.map(({ optimistic }) => {
       return {
         transform: function(state) {
           const todos = state.todosMap;
@@ -71,11 +71,11 @@ export default Store()
             todo => todo.complete === allCompleted
           );
         },
-        optimistic: promise
+        optimistic
       };
     }));
 
-    todoStore.register(toggleComplete.map(({ id, promise }) => {
+    todoStore.register(toggleComplete.map(({ id, optimistic }) => {
       return {
         transform: state => {
           const todos = state.todosMap;
@@ -86,11 +86,11 @@ export default Store()
           );
           return state;
         },
-        optimistic: promise
+        optimistic
       };
     }));
 
-    todoStore.register(updateText.map(({ id, text, promise }) => {
+    todoStore.register(updateText.map(({ id, text, optimistic }) => {
       return {
         transform: state => {
           const todos = state.todosMap;
@@ -101,11 +101,11 @@ export default Store()
           );
           return state;
         },
-        optimistic: promise
+        optimistic
       };
     }));
 
-    todoStore.register(destroy.map(function({ id, promise }) {
+    todoStore.register(destroy.map(function({ id, optimistic }) {
       return {
         transform: state => {
           const todos = assign({}, state.todosMap);
@@ -113,11 +113,11 @@ export default Store()
           state.todosMap = todos;
           return state;
         },
-        optimistic: promise
+        optimistic
       };
     }));
 
-    todoStore.register(destroyCompleted.map(function({ promise }) {
+    todoStore.register(destroyCompleted.map(function({ optimistic }) {
       return {
         transform: state => {
           const todos = state.todosMap;
@@ -130,7 +130,7 @@ export default Store()
           }, {});
           return state;
         },
-        optimistic: promise
+        optimistic
       };
     }));
   });

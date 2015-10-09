@@ -3,7 +3,7 @@ import { Actions } from 'thundercats';
 import TodoService from '../services/todoService';
 
 export default Actions({
-  create(text) {
+  createTodo(text) {
     const todo = {
       id: uuid.v4(),
       text,
@@ -28,15 +28,7 @@ export default Actions({
     };
   },
 
-  fetchTodos() {
-    TodoService.getTodos()
-      .then(state => {
-        this.updateMany(state.todosMap);
-      })
-      .catch(err => {
-        console.log('an error occurred retrieving todos from server: ', err);
-      });
-  },
+  fetchTodos: null,
 
   toggleComplete(id) {
     return {
@@ -63,4 +55,16 @@ export default Actions({
     };
   }
 })
-  .refs({ displayName: 'TodoActions' });
+  .refs({ displayName: 'TodoActions' })
+  .init(({ instance: todoActions }) => {
+    todoActions.fetchTodos.subscribe(() => {
+      TodoService.getTodos()
+        .then(state => {
+          todoActions.updateMany(state.todosMap);
+        })
+        .catch(err => {
+          console.log('an error occurred retrieving todos from server: ', err);
+        });
+    });
+
+  });

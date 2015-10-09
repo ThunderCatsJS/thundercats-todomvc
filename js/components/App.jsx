@@ -8,7 +8,7 @@ import Main from './Main.jsx';
 
 @createContainer({
   store: 'todoStore',
-  fetchAction: 'todoActions.fetchState',
+  fetchAction: 'todoActions.fetchTodos',
   map: ({ currentRoute, todosMap }) => {
     const allTodos = Object.keys(todosMap).reduce(function(todos, id) {
       todos.push(todosMap[id]);

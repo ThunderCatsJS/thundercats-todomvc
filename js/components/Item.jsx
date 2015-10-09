@@ -28,7 +28,7 @@ export default class Item extends React.Component {
 
   static propTypes = {
     editing: PropTypes.bool.isRequired,
-    itemActions: PropTypes.object.isRequired,
+    itemActions: PropTypes.object,
     onCancel: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onSave: PropTypes.func.isRequired,

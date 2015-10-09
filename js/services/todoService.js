@@ -1,7 +1,9 @@
+import { Observable } from 'rx';
+
 const NAMESPACE = 'thundercats-todos';
 
-function fakeRemoteCall() {
-  return Promise.resolve();
+function fakeRemoteCall(val) {
+  return Observable.just(val).delay(500);
 }
 
 export default {

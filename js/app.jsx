@@ -10,6 +10,8 @@ import RouterActions from './actions/RouterActions';
 import TodoApp from './components/App.jsx';
 import TodoService from './services/todoService';
 
+window.React = React;
+
 const TodoCat = Cat()
   .refs({ displayName: 'TodoCat' })
   .init(({ instance: todoCat }) => {
@@ -42,6 +44,9 @@ Render(todoCat, <TodoApp />, document.getElementById('todoapp')).subscribe(
   },
   err => {
     console.log('rendering has encountered an err: ', err);
+  },
+  () => {
+    console.log('foo');
   }
 );
 
